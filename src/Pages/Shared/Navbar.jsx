@@ -2,8 +2,30 @@ import React from "react";
 import logo from "../../assets/Logo/MediBazaarLogo.png";
 import { Link, NavLink } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
+import useAuth from "../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { logout } = useAuth();
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure want to Logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout().then(() => {
+          Swal.fire({
+            title: "Logged out!",
+            icon: "success",
+          });
+        });
+      }
+    });
+  };
   const navOptions = (
     <>
       <li>
@@ -34,6 +56,9 @@ const Navbar = () => {
         <NavLink>
           <BsCartPlus />
         </NavLink>
+      </li>
+      <li>
+        <button onClick={handleLogout}>Logout</button>
       </li>
     </>
   );
