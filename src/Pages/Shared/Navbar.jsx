@@ -1,13 +1,13 @@
 import React from "react";
 import logo from "../../assets/Logo/MediBazaarLogo.png";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
 
 const Navbar = () => {
   const navOptions = (
     <>
       <li>
-        <NavLink>Home</NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
         <NavLink>Shop</NavLink>
@@ -67,12 +67,15 @@ const Navbar = () => {
               {navOptions}
             </ul>
           </div>
-          <a className="btn btn-ghost flex justify-center items-center">
+          <Link
+            to="/"
+            className="btn btn-ghost flex justify-center items-center"
+          >
             <div className="w-10 md:w-20 hidden md:flex">
               <img src={logo} alt="MediBazaar Logo" />
             </div>
             <h1 className="text-xl md:text-2xl">MediBazaar</h1>
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 font-semibold">
@@ -80,7 +83,9 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn btn-secondary">Join Us</a>
+          <Link to="/signup" className="btn btn-secondary">
+            Join Us
+          </Link>
         </div>
       </div>
     </div>
