@@ -2,8 +2,37 @@ import React from "react";
 import SectionTitle from "./Shared/SectionTitle";
 import { Link } from "react-router-dom";
 import GoogleLogin from "./Shared/GoogleLogin";
+import useAuth from "../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
+  const { createUser } = useAuth();
+
+  const handleSignin = (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const name = form.name.value;
+    const email = form.email.value;
+    const photo = form.email.photo;
+    const password = form.password.value;
+    const role = form.role.value;
+
+    console.log({ name, photo, email, password, role });
+
+    createUser(email, password).then((result) => {
+      const user = result.user;
+      console.log(user);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your Account has been created",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    });
+  };
+
   return (
     <div className="py-5 md:py-10 lg:py-20">
       <div className="grid lg:grid-cols-2 gap-4 w-10/12 mx-auto ">
@@ -16,10 +45,14 @@ const SignUp = () => {
           </div>
         </div>
         <div>
-          <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4">
+          <form
+            onSubmit={handleSignin}
+            className="fieldset bg-base-200 border-base-300 rounded-box w-full border p-4"
+          >
             <label className="label">User Name</label>
             <input
               type="name"
+              name="name"
               className="input w-full"
               placeholder="Enter Your Name"
             />
@@ -27,21 +60,27 @@ const SignUp = () => {
             <label className="label">Email</label>
             <input
               type="email"
+              name="email"
               className="input w-full"
               placeholder="Enter Your Email"
             />
 
             <label className="label">Profile Photo</label>
-            <input type="file" className="file-input w-full" />
+            <input type="file" name="photo" className="file-input w-full" />
 
-            <select defaultValue="Select Role" className="select w-full">
+            <select
+              name="role"
+              defaultValue="Select Role"
+              className="select w-full"
+            >
               <option disabled={true}>Select Role</option>
-              <option>User</option>
-              <option>Seller</option>
+              <option value="user">User</option>
+              <option value="seller">Seller</option>
             </select>
 
             <label className="label">Password</label>
             <input
+              name="password"
               type="password"
               className="input w-full"
               placeholder="Password"
@@ -52,7 +91,7 @@ const SignUp = () => {
               type="submit"
               value="Sign Up"
             />
-          </fieldset>
+          </form>
           <div className="flex flex-col md:flex-row gap-4 justify-around items-center mb-6 bg-base-200 py-5">
             <div className="flex flex-col justify-center">
               <p>Already have an account ?</p>
