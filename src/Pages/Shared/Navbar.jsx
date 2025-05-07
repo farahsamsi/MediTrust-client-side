@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const Navbar = () => {
   const { logout } = useAuth();
@@ -37,17 +38,17 @@ const Navbar = () => {
 
       <li className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="">
-          Languages
+          Languages <IoMdArrowDropdown />
         </div>
         <ul
           tabIndex={0}
           className="menu dropdown-content bg-base-200 rounded-box z-1  w-52 p-2 shadow-sm"
         >
           <li>
-            <a>Item 1</a>
+            <a>English</a>
           </li>
           <li>
-            <a>Item 2</a>
+            <a>Bangla</a>
           </li>
         </ul>
       </li>
@@ -99,7 +100,9 @@ const Navbar = () => {
             <div className="w-10 md:w-20 hidden md:flex">
               <img src={logo} alt="MediBazaar Logo" />
             </div>
-            <h1 className="text-xl md:text-2xl">MediBazaar</h1>
+            <h1 className="text-xl md:text-2xl">
+              Medi<span className="text-secondary">Trust</span>
+            </h1>
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

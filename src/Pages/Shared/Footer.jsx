@@ -9,7 +9,7 @@ const Footer = () => {
           <img src={logo} alt="MediBazaar Logo" />
         </div>
         <h1 className="text-xl font-semibold text-center md:text-4xl">
-          MediBazaar
+          Medi<span className="text-secondary">Trust</span>
         </h1>
       </div>
       <footer className="footer footer-horizontal footer-center  rounded ">
