@@ -13,7 +13,7 @@ const CatCard = ({ card }) => {
           {/* <span className="badge badge-secondary">{medicineCount}</span> */}
         </h2>
 
-        <div className="badge badge-secondary h-fit">
+        <div className="badge badge-outline badge-secondary h-fit">
           Available Medicine : {medicineCount}
         </div>
       </div>

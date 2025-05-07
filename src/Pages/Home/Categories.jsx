@@ -42,7 +42,7 @@ const Categories = () => {
     },
   ];
   return (
-    <div>
+    <div className="mb-10 lg:mb-20">
       <SectionTitle
         heading="Explore Medicines by Category"
         subHeading="Browse through various health categories to find the right medicine tailored to your needs. From pain relief to daily supplements – it's all here"
