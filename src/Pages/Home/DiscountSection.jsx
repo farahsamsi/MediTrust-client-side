@@ -60,11 +60,23 @@ const DiscountSection = () => {
       ></SectionTitle>
       <div>
         <Swiper
-          slidesPerView={3}
+          //   slidesPerView={3}
           spaceBetween={30}
           freeMode={true}
           pagination={{
             clickable: true,
+          }}
+          //   making the slides per view responsive
+          breakpoints={{
+            0: {
+              slidesPerView: 2,
+            },
+            768: {
+              slidesPerView: 3,
+            },
+            1024: {
+              slidesPerView: 4,
+            },
           }}
           modules={[FreeMode, Pagination]}
           className="mySwiper"
