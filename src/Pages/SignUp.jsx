@@ -5,6 +5,12 @@ import GoogleLogin from "./Shared/GoogleLogin";
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
 
+// getting API from env local file
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+
+// image hosting api
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+
 const SignUp = () => {
   const { createUser } = useAuth();
 
@@ -14,23 +20,25 @@ const SignUp = () => {
 
     const name = form.name.value;
     const email = form.email.value;
-    const photo = form.email.photo;
+    const photo = form.photo.files;
     const password = form.password.value;
     const role = form.role.value;
 
     console.log({ name, photo, email, password, role });
 
-    createUser(email, password).then((result) => {
-      const user = result.user;
-      console.log(user);
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your Account has been created",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    });
+    // uploading the image to imgbb and then get an url
+
+    // createUser(email, password).then((result) => {
+    //   const user = result.user;
+    //   console.log(user);
+    //   Swal.fire({
+    //     position: "top-end",
+    //     icon: "success",
+    //     title: "Your Account has been created",
+    //     showConfirmButton: false,
+    //     timer: 1500,
+    //   });
+    // });
   };
 
   return (
