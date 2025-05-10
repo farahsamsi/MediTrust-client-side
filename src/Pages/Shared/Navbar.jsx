@@ -6,10 +6,14 @@ import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { IoMdArrowDropdown } from "react-icons/io";
 import useCart from "../../Hooks/useCart";
+import useUser from "../../Hooks/useUser";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
+  const [currentUser] = useUser();
+  // console.log("current user from navbar", currentUser[0]);
+
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure want to Logout?",
@@ -37,9 +41,6 @@ const Navbar = () => {
       <li>
         <NavLink>Shop</NavLink>
       </li>
-      <li>
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </li>
 
       <li className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="">
@@ -64,11 +65,6 @@ const Navbar = () => {
           <div className="badge badge-sm badge-secondary">{`+${cart?.length}`}</div>
         </NavLink>
       </li>
-      {user && (
-        <li>
-          <button onClick={handleLogout}>Logout</button>
-        </li>
-      )}
     </>
   );
 
@@ -119,9 +115,45 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <Link to="/signup" className="btn btn-secondary">
-            Join Us
-          </Link>
+          {user ? (
+            <div className="flex gap-4 items-center">
+              <p className="hidden md:flex font-bold">
+                Hi, {user?.displayName}
+              </p>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-20 rounded-full">
+                    <img referrerPolicy="no-referrer" src={user?.photoURL} />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                >
+                  <li>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to="" className="justify-between">
+                      Profile
+                    </Link>
+                  </li>
+
+                  <li onClick={handleLogout}>
+                    <a>Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            <Link to="/signup" className="btn btn-secondary">
+              Join Us
+            </Link>
+          )}
         </div>
       </div>
     </div>

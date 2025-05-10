@@ -37,22 +37,27 @@ const SignUp = () => {
     });
     const photoURL = res.data.data.display_url;
 
-    console.log({ name, photo, email, role });
+    // console.log({ name, photo, email, role });
 
     if (res.data.success) {
       createUser(email, password)
         .then(() => {
-          updateUserProfile(name, photoURL).then((res) => {
-            console.log(res);
+          updateUserProfile(name, photoURL).then(() => {
+            const userInfo = { name, photoURL, email, role };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              console.log(res.data);
+              if (res.data.insertedId) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Your Account has been created",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/");
+              }
+            });
           });
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Your Account has been created",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          navigate("/");
         })
         .catch((err) =>
           Swal.fire({

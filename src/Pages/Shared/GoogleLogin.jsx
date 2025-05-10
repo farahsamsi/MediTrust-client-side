@@ -2,11 +2,13 @@ import React from "react";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const GoogleLogin = () => {
   const { googleLogin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosPublic = useAxiosPublic();
 
   const from = location.state?.from?.pathname || "/";
 
@@ -16,15 +18,24 @@ const GoogleLogin = () => {
         const userInfo = {
           name: res.user.displayName,
           email: res.user.email,
+          photoURL: res.user.photoURL,
+          role: "user",
         };
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Welcome to MediTrust",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(from, { replace: true });
+        axiosPublic
+          .post("/users", userInfo)
+          .then(() => {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Welcome to MediTrust",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate(from, { replace: true });
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
       })
       .catch((err) => {
         console.log(err.message);
