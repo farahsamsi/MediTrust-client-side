@@ -5,10 +5,11 @@ import { BsCartPlus } from "react-icons/bs";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { IoMdArrowDropdown } from "react-icons/io";
+import useCart from "../../Hooks/useCart";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  console.log(user);
+  const [cart] = useCart();
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure want to Logout?",
@@ -59,7 +60,8 @@ const Navbar = () => {
 
       <li className="text-xl">
         <NavLink>
-          <BsCartPlus />
+          <BsCartPlus />{" "}
+          <div className="badge badge-sm badge-secondary">{`+${cart?.length}`}</div>
         </NavLink>
       </li>
       {user && (
