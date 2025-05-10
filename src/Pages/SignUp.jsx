@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import GoogleLogin from "./Shared/GoogleLogin";
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 // getting API from env local file
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -14,8 +15,9 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 const SignUp = () => {
   const { createUser, updateUserProfile } = useAuth();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
-  const handleSignin = (e) => {
+  const handleSignin = async (e) => {
     e.preventDefault();
     const form = e.target;
 
@@ -25,21 +27,41 @@ const SignUp = () => {
     const password = form.password.value;
     const role = form.role.value;
 
-    console.log({ name, photo, email, password, role });
-
     // uploading the image to imgbb and then get an url
+    const imageFile = { image: photo[0] };
 
-    createUser(email, password).then((result) => {
-      const user = result.user;
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your Account has been created",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      navigate("/");
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
     });
+    const photoURL = res.data.data.display_url;
+
+    console.log({ name, photo, email, role });
+
+    if (res.data.success) {
+      createUser(email, password)
+        .then(() => {
+          updateUserProfile(name, photoURL).then((res) => {
+            console.log(res);
+          });
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your Account has been created",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        })
+        .catch((err) =>
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${err.message}`,
+          })
+        );
+    }
   };
 
   return (
