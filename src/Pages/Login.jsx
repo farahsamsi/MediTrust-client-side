@@ -1,12 +1,18 @@
 import React from "react";
 import SectionTitle from "./Shared/SectionTitle";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "./Shared/GoogleLogin";
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
 
 const Login = () => {
   const { loginUser } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -23,6 +29,7 @@ const Login = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+      navigate(from, { replace: true });
     });
   };
   return (

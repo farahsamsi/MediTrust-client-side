@@ -1,6 +1,6 @@
 import React from "react";
 import SectionTitle from "./Shared/SectionTitle";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleLogin from "./Shared/GoogleLogin";
 import useAuth from "../Hooks/useAuth";
 import Swal from "sweetalert2";
@@ -12,7 +12,8 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const SignUp = () => {
-  const { createUser } = useAuth();
+  const { createUser, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignin = (e) => {
     e.preventDefault();
@@ -28,17 +29,17 @@ const SignUp = () => {
 
     // uploading the image to imgbb and then get an url
 
-    // createUser(email, password).then((result) => {
-    //   const user = result.user;
-    //   console.log(user);
-    //   Swal.fire({
-    //     position: "top-end",
-    //     icon: "success",
-    //     title: "Your Account has been created",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    // });
+    createUser(email, password).then((result) => {
+      const user = result.user;
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your Account has been created",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
+    });
   };
 
   return (

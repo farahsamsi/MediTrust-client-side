@@ -7,7 +7,8 @@ import Swal from "sweetalert2";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 const Navbar = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+  console.log(user);
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure want to Logout?",
@@ -35,6 +36,9 @@ const Navbar = () => {
       <li>
         <NavLink>Shop</NavLink>
       </li>
+      <li>
+        <NavLink to="/dashboard">Dashboard</NavLink>
+      </li>
 
       <li className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="">
@@ -58,9 +62,11 @@ const Navbar = () => {
           <BsCartPlus />
         </NavLink>
       </li>
-      <li>
-        <button onClick={handleLogout}>Logout</button>
-      </li>
+      {user && (
+        <li>
+          <button onClick={handleLogout}>Logout</button>
+        </li>
+      )}
     </>
   );
 
