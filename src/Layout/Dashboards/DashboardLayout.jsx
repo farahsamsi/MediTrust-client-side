@@ -1,10 +1,85 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../../Hooks/useAdmin";
 
 const DashboardLayout = () => {
+  const [isAdmin] = useAdmin();
+
   return (
-    <div>
-      <Outlet></Outlet>
+    <div className="drawer lg:drawer-open">
+      <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-content flex flex-col items-center justify-center">
+        {/* Page content here */}
+        <div className="navbar bg-base-100 shadow-sm lg:hidden">
+          <div className="flex-1">
+            <Link to="/" className="btn btn-ghost text-xl">
+              <h1 className="text-xl md:text-2xl">
+                Medi<span className="text-secondary">Trust</span>
+              </h1>
+            </Link>
+          </div>
+          <div className="flex-none">
+            <label
+              htmlFor="my-drawer-2"
+              className="btn btn-square btn-ghost drawer-button "
+              // className="btn btn-square btn-ghost"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="inline-block h-5 w-5 stroke-current"
+              >
+                {" "}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                ></path>{" "}
+              </svg>
+            </label>
+          </div>
+        </div>
+
+        <Outlet></Outlet>
+      </div>
+      <div className="drawer-side">
+        <label
+          htmlFor="my-drawer-2"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <ul className="menu bg-base-200 text-base-content min-h-full w-8/12 md:w-80 p-4">
+          {/* Sidebar content here */}
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
+
+          {
+            // navlinks for isAdmin true
+            isAdmin && (
+              <>
+                <li>
+                  <NavLink>Manage Users</NavLink>
+                </li>
+                <li>
+                  <NavLink>Manage Category</NavLink>
+                </li>
+                <li>
+                  <NavLink>Payment Management</NavLink>
+                </li>
+                <li>
+                  <NavLink>Sales Report</NavLink>
+                </li>
+                <li>
+                  <NavLink>Manage Banner Advertise</NavLink>
+                </li>
+              </>
+            )
+          }
+        </ul>
+      </div>
     </div>
   );
 };
