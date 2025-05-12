@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
+import DashboardBanner from "../../Shared/DashboardBanner";
 
 const ManagePayment = () => {
   const [payments, setPayments] = useState([
@@ -35,9 +36,10 @@ const ManagePayment = () => {
 
   return (
     <section className="w-full px-1">
-      <h2 className="text-3xl font-bold mb-4 text-center w-full">
-        Payment Management
-      </h2>
+      <DashboardBanner
+        heading="Payment Management Dashboard"
+        subHeading="Monitor all pending and completed payments. Accept payments and update statuses in real-time."
+      ></DashboardBanner>
 
       <div className="overflow-x-auto">
         <table className="table w-full">

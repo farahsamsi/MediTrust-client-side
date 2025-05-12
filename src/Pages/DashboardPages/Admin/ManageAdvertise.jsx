@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaToggleOn, FaToggleOff } from "react-icons/fa";
+import DashboardBanner from "../../Shared/DashboardBanner";
 
 const ManageAdvertise = () => {
   const [medicines, setMedicines] = useState([
@@ -38,9 +39,10 @@ const ManageAdvertise = () => {
 
   return (
     <section className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">
-        Manage Banner Advertise
-      </h2>
+      <DashboardBanner
+        heading="Manage Banner Advertisements"
+        subHeading="Control which medicines appear in the homepage slider. Toggle visibility with ease and manage promotional content effectively."
+      ></DashboardBanner>
 
       <div className="overflow-x-auto bg-white rounded shadow">
         <table className="table w-full table-zebra">

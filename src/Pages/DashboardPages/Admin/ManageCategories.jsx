@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import DashboardBanner from "../../Shared/DashboardBanner";
 
 const ManageCategories = () => {
   const categoryCards = [
@@ -42,12 +43,13 @@ const ManageCategories = () => {
   ];
   return (
     <section className="w-full px-1 py-4">
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex justify-center w-full">
-          <h2 className="text-center text-3xl font-bold">Manage Categories</h2>
-        </div>
+      <DashboardBanner
+        heading="Medicine Category Management"
+        subHeading="Add, edit, or remove medicine categories to keep your product catalog organized and up-to-date."
+      ></DashboardBanner>
+      <div className="flex justify-center bg-secondary items-center mb-4 pb-4 text-white">
         <button
-          className="btn btn-secondary btn-sm flex items-center gap-2"
+          className="btn btn-outline btn-sm flex items-center gap-2"
           onClick={() =>
             document.getElementById("add-category-modal").showModal()
           }

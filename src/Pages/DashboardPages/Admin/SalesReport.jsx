@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaDownload } from "react-icons/fa";
+import DashboardBanner from "../../Shared/DashboardBanner";
 
 const SalesReport = () => {
   const [startDate, setStartDate] = useState("");
@@ -26,9 +27,10 @@ const SalesReport = () => {
 
   return (
     <section className="w-full px-1">
-      <h2 className="text-3xl font-bold mb-6 w-full text-center">
-        Sales Report
-      </h2>
+      <DashboardBanner
+        heading="Sales Report Overview"
+        subHeading="Analyze and track all medicine sales. Filter by date and download reports."
+      ></DashboardBanner>
 
       {/* Filter and Download Controls */}
       <div className="flex flex-wrap gap-4 items-center mb-6">

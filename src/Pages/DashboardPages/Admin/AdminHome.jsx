@@ -1,5 +1,6 @@
 import React from "react";
 import { FaCheckCircle, FaClock, FaMoneyBillWave } from "react-icons/fa";
+import DashboardBanner from "../../Shared/DashboardBanner";
 
 const AdminHome = () => {
   // Dummy data (TODO: replace with API data or state)
@@ -8,8 +9,12 @@ const AdminHome = () => {
   const pendingTotal = 30000;
 
   return (
-    <section className="p-6">
-      <h2 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h2>
+    <section className="w-full px-1">
+      {/* <h2 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h2> */}
+      <DashboardBanner
+        heading="Welcome to Admin Dashboard"
+        subHeading="Monitor your platform’s performance at a glance — track total sales, payments, and user activities in one centralized place."
+      ></DashboardBanner>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Total Revenue */}

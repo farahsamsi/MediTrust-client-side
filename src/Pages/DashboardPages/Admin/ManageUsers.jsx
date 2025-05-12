@@ -5,6 +5,7 @@ import {
   FaUserShield,
   FaUserTie,
 } from "react-icons/fa";
+import DashboardBanner from "../../Shared/DashboardBanner";
 
 const ManageUsers = () => {
   const users = [
@@ -42,7 +43,10 @@ const ManageUsers = () => {
 
   return (
     <section className="w-full px-1">
-      <h2 className="text-3xl font-bold mb-6 text-center">Manage Users</h2>
+      <DashboardBanner
+        heading="User Role Management"
+        subHeading="Easily promote users to sellers or admins, and manage roles to keep your platform secure and efficient."
+      ></DashboardBanner>
 
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
