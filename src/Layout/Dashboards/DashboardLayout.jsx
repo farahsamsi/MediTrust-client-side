@@ -86,7 +86,9 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink>Payment Management</NavLink>
+                  <NavLink to="/dashboard/managePayment">
+                    Payment Management
+                  </NavLink>
                 </li>
                 <li>
                   <NavLink>Sales Report</NavLink>

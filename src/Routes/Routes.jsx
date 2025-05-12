@@ -10,6 +10,7 @@ import DashboardHome from "../Pages/DashboardPages/DashboardHome";
 import ManageUsers from "../Pages/DashboardPages/Admin/ManageUsers";
 import Shop from "../Pages/Shop";
 import ManageCategories from "../Pages/DashboardPages/Admin/ManageCategories";
+import ManagePayment from "../Pages/DashboardPages/Admin/ManagePayment";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/manageCategories",
         element: <ManageCategories></ManageCategories>,
+      },
+      {
+        path: "/dashboard/managePayment",
+        element: <ManagePayment></ManagePayment>,
       },
     ],
   },
