@@ -6,12 +6,11 @@ import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { IoMdArrowDropdown } from "react-icons/io";
 import useCart from "../../Hooks/useCart";
-import useUser from "../../Hooks/useUser";
+import "./Navbar.css";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
-  const [currentUser] = useUser();
   // console.log("current user from navbar", currentUser[0]);
 
   const handleLogout = () => {
@@ -39,7 +38,7 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink>Shop</NavLink>
+        <NavLink to="/shop">Shop</NavLink>
       </li>
 
       <li className="dropdown dropdown-end">

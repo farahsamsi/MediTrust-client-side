@@ -6,6 +6,9 @@ import Login from "../Pages/Login";
 import DashboardLayout from "../Layout/Dashboards/DashboardLayout";
 
 import PrivateRoute from "./PrivateRoute";
+import DashboardHome from "../Pages/DashboardPages/DashboardHome";
+import ManageUsers from "../Pages/DashboardPages/Admin/ManageUsers";
+import Shop from "../Pages/Shop";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +27,10 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login></Login>,
       },
+      {
+        path: "shop",
+        element: <Shop></Shop>,
+      },
     ],
   },
   {
@@ -33,6 +40,15 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
-    children: [],
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardHome></DashboardHome>,
+      },
+      {
+        path: "/dashboard/manageUsers",
+        element: <ManageUsers></ManageUsers>,
+      },
+    ],
   },
 ]);

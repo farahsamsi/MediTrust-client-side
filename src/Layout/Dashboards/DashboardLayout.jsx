@@ -1,9 +1,10 @@
-import React from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../../Hooks/useAdmin";
+import useUser from "../../Hooks/useUser";
 
 const DashboardLayout = () => {
   const [isAdmin] = useAdmin();
+  const [currentUser] = useUser();
 
   return (
     <div className="drawer lg:drawer-open">
@@ -22,7 +23,6 @@ const DashboardLayout = () => {
             <label
               htmlFor="my-drawer-2"
               className="btn btn-square btn-ghost drawer-button "
-              // className="btn btn-square btn-ghost"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -50,8 +50,22 @@ const DashboardLayout = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
+
         <ul className="menu bg-base-200 text-base-content min-h-full w-8/12 md:w-80 p-4">
           {/* Sidebar content here */}
+          {/* navbar links */}
+          <div className="flex justify-center items-center py-2">
+            <div className="avatar">
+              {currentUser && (
+                <div className="ring-secondary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
+                  <img
+                    referrerPolicy="no-referrer"
+                    src={currentUser[0]?.photoURL}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
@@ -61,7 +75,10 @@ const DashboardLayout = () => {
             isAdmin && (
               <>
                 <li>
-                  <NavLink>Manage Users</NavLink>
+                  <NavLink to="/dashboard">Admin Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
                 </li>
                 <li>
                   <NavLink>Manage Category</NavLink>
