@@ -91,10 +91,12 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink>Sales Report</NavLink>
+                  <NavLink to="/dashboard/salesReport">Sales Report</NavLink>
                 </li>
                 <li>
-                  <NavLink>Manage Banner Advertise</NavLink>
+                  <NavLink to="/dashboard/manageAdvertise">
+                    Manage Banner Advertise
+                  </NavLink>
                 </li>
               </>
             )
