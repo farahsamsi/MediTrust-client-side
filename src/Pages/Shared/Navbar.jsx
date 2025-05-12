@@ -59,7 +59,7 @@ const Navbar = () => {
       </li>
 
       <li className="text-xl">
-        <NavLink>
+        <NavLink to="cart">
           <BsCartPlus />{" "}
           <div className="badge badge-sm badge-secondary">{`+${cart?.length}`}</div>
         </NavLink>
