@@ -122,6 +122,11 @@ const DashboardLayout = () => {
                     Manage Medicines
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink to="/dashboard/paymentHistory">
+                    Payment History
+                  </NavLink>
+                </li>
               </>
             )
           }
