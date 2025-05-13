@@ -6,39 +6,63 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 import DashboardBanner from "../../Shared/DashboardBanner";
+import useAllUsers from "../../../Hooks/useAllUsers";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
-  const users = [
-    {
-      id: 1,
-      name: "Amina Rahman",
-      email: "amina@example.com",
-      role: "user",
-    },
-    {
-      id: 2,
-      name: "Tanvir Hossain",
-      email: "tanvir@sellmed.com",
-      role: "seller",
-    },
-    {
-      id: 3,
-      name: "Admin Rafi",
-      email: "rafi@admin.com",
-      role: "admin",
-    },
-  ];
+  const [allUsers, refetchUsers] = useAllUsers();
+  const axiosSecure = useAxiosSecure();
 
-  const handleMakeSeller = (id) => {
-    console.log("Make seller:", id);
+  const handleMakeSeller = async (email) => {
+    const role = "seller";
+    const updateRole = { role };
+
+    const res = await axiosSecure.patch(`/user/${email}`, updateRole);
+    if (res.data.modifiedCount > 0) {
+      refetchUsers();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Role has been updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
-  const handleMakeAdmin = (id) => {
-    console.log("Make admin:", id);
+  const handleMakeAdmin = async (email) => {
+    const role = "admin";
+    const updateRole = { role };
+
+    const res = await axiosSecure.patch(`/user/${email}`, updateRole);
+    if (res.data.modifiedCount > 0) {
+      refetchUsers();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Role has been updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
-  const handleDowngrade = (id) => {
-    console.log("Downgrade user:", id);
+  const handleDowngrade = async (email) => {
+    const role = "user";
+    const updateRole = { role };
+
+    const res = await axiosSecure.patch(`/user/${email}`, updateRole);
+    if (res.data.modifiedCount > 0) {
+      refetchUsers();
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Role has been updated",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
@@ -60,42 +84,44 @@ const ManageUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {allUsers?.map((user, index) => (
               <tr key={user.id}>
                 <td>{index + 1}</td>
-                <td className="font-medium">{user.name}</td>
-                <td>{user.email}</td>
+                <td className="font-medium">{user?.name}</td>
+                <td>{user?.email}</td>
                 <td className="capitalize flex items-center gap-2">
-                  {user.role === "admin" && (
+                  {user?.role === "admin" && (
                     <FaUserShield className="text-blue-600" />
                   )}
-                  {user.role === "seller" && (
+                  {user?.role === "seller" && (
                     <FaUserTie className="text-green-600" />
                   )}
-                  {user.role === "user" && <FaUser className="text-gray-500" />}
-                  {user.role}
+                  {user?.role === "user" && (
+                    <FaUser className="text-gray-500" />
+                  )}
+                  {user?.role}
                 </td>
-                {/* <td></td> */}
+
                 <td className="space-x-1">
                   {user.role === "user" && (
                     <>
                       <button
-                        onClick={() => handleMakeSeller(user.id)}
+                        onClick={() => handleMakeSeller(user?.email)}
                         className="btn btn-sm btn-outline btn-success"
                       >
                         <FaArrowUp className="mr-1" /> Seller
                       </button>
                       <button
-                        onClick={() => handleMakeAdmin(user.id)}
+                        onClick={() => handleMakeAdmin(user?.email)}
                         className="btn btn-sm btn-outline btn-primary"
                       >
                         <FaArrowUp className="mr-1" /> Admin
                       </button>
                     </>
                   )}
-                  {(user.role === "seller" || user.role === "admin") && (
+                  {(user?.role === "seller" || user?.role === "admin") && (
                     <button
-                      onClick={() => handleDowngrade(user.id)}
+                      onClick={() => handleDowngrade(user?.email)}
                       className="btn btn-sm btn-outline btn-warning"
                     >
                       <FaArrowDown className="mr-1" /> Downgrade
