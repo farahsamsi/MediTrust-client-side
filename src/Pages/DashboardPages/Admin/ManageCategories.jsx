@@ -1,46 +1,40 @@
 import React from "react";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import DashboardBanner from "../../Shared/DashboardBanner";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import useCategories from "../../../Hooks/useCategories";
 
 const ManageCategories = () => {
-  const categoryCards = [
-    {
-      id: 1,
-      categoryName: "Pain Relief",
-      image: "https://i.ibb.co.com/1fS8xRHW/Pain-Relief.png",
-      medicineCount: 24,
-    },
-    {
-      id: 2,
-      categoryName: "Digestive Health",
-      image: "https://i.ibb.co.com/dw4pwrGY/Digestive-Health.png",
-      medicineCount: 18,
-    },
-    {
-      id: 3,
-      categoryName: "Vitamins & Supplements",
-      image: "https://i.ibb.co.com/KjKmgmxw/Vitamins-Supplements.png",
-      medicineCount: 32,
-    },
-    {
-      id: 4,
-      categoryName: "Cough & Cold",
-      image: "https://i.ibb.co.com/4Zq6rkYk/Cough-Cold.png",
-      medicineCount: 15,
-    },
-    {
-      id: 5,
-      categoryName: "Skin Care",
-      image: "https://i.ibb.co.com/gLNrwgDP/Skin-Care.png",
-      medicineCount: 12,
-    },
-    {
-      id: 6,
-      categoryName: "Child Care",
-      image: "https://i.ibb.co.com/JwQVz5mY/Child-Care.png",
-      medicineCount: 20,
-    },
-  ];
+  const axiosSecure = useAxiosSecure();
+  const [categories, refetchCategories] = useCategories();
+
+  const handleAddCategory = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    let categoryName = form.categoryName.value;
+    let categoryImage = form.categoryImage.value;
+    const categoryItem = { categoryName, categoryImage };
+
+    axiosSecure.post("/category", categoryItem).then((res) => {
+      if (res.data.insertedId) {
+        document.getElementById("add-category-modal").close();
+        refetchCategories();
+
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${categoryName} has been added.`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+
+    form.categoryName.value = "";
+    form.categoryImage.value = "";
+  };
+
   return (
     <section className="w-full px-1 py-4">
       <DashboardBanner
@@ -69,12 +63,12 @@ const ManageCategories = () => {
             </tr>
           </thead>
           <tbody>
-            {categoryCards.map((cat, index) => (
+            {categories?.map((cat, index) => (
               <tr key={cat.id}>
                 <td>{index + 1}</td>
                 <td>
                   <img
-                    src={cat.image}
+                    src={cat.categoryImage}
                     alt={cat.categoryName}
                     className="w-16  rounded"
                   />
@@ -101,34 +95,37 @@ const ManageCategories = () => {
       <dialog id="add-category-modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-4">Add New Category</h3>
-          <form className="space-y-3">
+          <form onSubmit={handleAddCategory} className="space-y-3">
             <input
               type="text"
               name="categoryName"
               placeholder="Category Name"
               className="input input-bordered w-full"
-              //   value={newCategory.categoryName}
-              //   onChange={handleInputChange}
+              required
             />
             <input
               type="text"
               name="categoryImage"
               placeholder="Category Image URL"
               className="input input-bordered w-full"
-              //   value={newCategory.categoryImage}
-              //   onChange={handleInputChange}
+              required
             />
             <div className="modal-action">
-              <button
-                type="button"
-                className="btn btn-success"
-                // onClick={handleAddCategory}
-              >
-                Add
-              </button>
-              <form method="dialog">
-                <button className="btn">Cancel</button>
-              </form>
+              <input
+                type="submit"
+                className="btn btn-secondary"
+                value="Add"
+              ></input>
+              <div>
+                <div
+                  onClick={() =>
+                    document.getElementById("add-category-modal").close()
+                  }
+                  className="btn"
+                >
+                  Cancel
+                </div>
+              </div>
             </div>
           </form>
         </div>
