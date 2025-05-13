@@ -5,12 +5,26 @@ import { FaEye, FaShoppingCart } from "react-icons/fa";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useCart from "../../Hooks/useCart";
 
-const MedCard = (item) => {
+const MedCard = ({ med }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const axiosSecure = useAxiosSecure();
   const [, refetch] = useCart();
+
+  const {
+    _id,
+    medicineName,
+    genericName,
+    description,
+    medicineImage,
+    category,
+    companyName,
+    massUnit,
+    price,
+    discountPercentage,
+    sellerEmail,
+  } = med || {};
 
   const handleAddToCart = (item) => {
     if (user && user?.email) {
@@ -52,12 +66,12 @@ const MedCard = (item) => {
     <div className="flex items-center justify-between border-b py-3">
       <div className="flex items-center gap-4">
         <img
-          // src={item.image}
-          alt={item?.name}
+          src={medicineImage}
+          alt={medicineName}
           className="w-16 h-16 object-cover rounded"
         />
         <div>
-          <h4 className="font-medium">Med Name</h4>
+          <h4 className="font-medium">{medicineName}</h4>
           <div className="text-sm">
             {/* Old Price */}
             {/* {item.oldPrice && (
@@ -66,59 +80,52 @@ const MedCard = (item) => {
                             </span>
                           )} */}
             <span className="font-semibold text-secondary">
-              {/* ${item.price.toFixed(2)} */}
-              $New price
+              {/* ${item.price.toFixed(2)} */}${price}
             </span>
           </div>
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-2 justify-center items-center">
         <button
-          onClick={() =>
-            document.getElementById("medicine_details_modal").showModal()
-          }
+          onClick={() => document.getElementById(`${_id}`).showModal()}
           className="btn btn-circle bg-gray-100 "
         >
           <FaEye className="text-secondary lg:text-xl" />
         </button>
         <button
-          onClick={() => handleAddToCart(item)}
+          onClick={() => handleAddToCart(med)}
           className="btn btn-circle bg-gray-100 "
         >
           <FaShoppingCart className="text-secondary lg:text-xl" />
         </button>
       </div>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <dialog
-        id="medicine_details_modal"
-        className="modal modal-bottom sm:modal-middle"
-      >
+      <dialog id={`${_id}`} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-xl mb-2">medicine name</h3>
+          <h3 className="font-bold text-xl mb-2">{medicineName}</h3>
           <img
-            src="https://i.ibb.co/Y4Nk16XR/Napa-Extra.png"
+            src={medicineImage}
             alt=""
             className="w-full h-52 object-cover rounded mb-4"
           />
           <p>
-            <span className="font-semibold">Generic Name:</span> medicine
-            genericName
+            <span className="font-semibold">Generic Name:</span> {genericName}
           </p>
           <p>
-            <span className="font-semibold">Company:</span> medicine company
+            <span className="font-semibold">Company:</span> {companyName}
           </p>
           <p>
-            <span className="font-semibold">Mass Unit:</span> medicine unit
+            <span className="font-semibold">Mass Unit:</span> 500 {massUnit}
           </p>
           <p>
-            <span className="font-semibold">Price:</span> ৳ medicine price
+            <span className="font-semibold">Price:</span> ${price}
           </p>
           <p>
-            <span className="font-semibold">Discount:</span> medicine discount %
+            <span className="font-semibold">Discount:</span>{" "}
+            {discountPercentage}%
           </p>
           <p className="mt-2">
-            <span className="font-semibold">Description:</span> medicine
-            description
+            <span className="font-semibold">Description:</span> {description}
           </p>
 
           <div className="modal-action">

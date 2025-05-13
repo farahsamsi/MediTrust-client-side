@@ -2,16 +2,17 @@ import { useState } from "react";
 import DashboardBanner from "./Shared/DashboardBanner";
 import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
 import MedCard from "./Shared/MedCard";
+import useMedicines from "../Hooks/useMedicines";
 
 const Shop = () => {
   const [sortOrder, setSortOrder] = useState("asc");
+  const [medicines, refetchMedicines] = useMedicines();
 
-  const products = [{}, {}, {}, {}, {}, {}];
   return (
     <section className="w-full px-1 mb-10">
       <DashboardBanner
-        heading="Payment History"
-        subHeading="View all your medicine payment transactions with their status."
+        heading="Medicine Shop"
+        subHeading="Browse and buy trusted medicines from verified companies, all in one place"
       ></DashboardBanner>
       {/* Search and Sort Controls */}
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 my-4">
@@ -41,8 +42,8 @@ const Shop = () => {
 
       <div className="w-11/12 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
-          {products.map((item) => (
-            <MedCard item={item}></MedCard>
+          {medicines?.map((med) => (
+            <MedCard med={med}></MedCard>
           ))}
         </div>
       </div>

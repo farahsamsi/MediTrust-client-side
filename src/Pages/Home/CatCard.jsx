@@ -1,11 +1,11 @@
 import React from "react";
 
-const CatCard = ({ card }) => {
-  const { id, categoryName, image, medicineCount } = card;
+const CatCard = ({ category }) => {
+  const { id, categoryName, categoryImage } = category;
   return (
     <div className="card bg-base-100 shadow-sm hover:scale-105 transition ease-in-out">
       <figure>
-        <img src={image} alt={categoryName} />
+        <img src={categoryImage} alt={categoryName} />
       </figure>
       <div className="card-body flex justify-between">
         <h2 className="card-title">
@@ -14,7 +14,7 @@ const CatCard = ({ card }) => {
         </h2>
 
         <div className="badge badge-outline badge-secondary h-fit">
-          Available Medicine : {medicineCount}
+          Available Medicine :
         </div>
       </div>
     </div>

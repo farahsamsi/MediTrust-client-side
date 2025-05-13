@@ -1,9 +1,10 @@
 import SectionTitle from "../Shared/SectionTitle";
 
 import MedCard from "../Shared/MedCard";
+import useMedicines from "../../Hooks/useMedicines";
 
 const BestSelling = () => {
-  const products = [{}, {}, {}, {}, {}, {}, {}, {}];
+  const [medicines] = useMedicines();
 
   return (
     <div className="mb-10 lg:mb-20">
@@ -13,8 +14,8 @@ const BestSelling = () => {
       ></SectionTitle>
       <div className="w-11/12 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
-          {products.map((item) => (
-            <MedCard item={item}></MedCard>
+          {medicines?.map((med) => (
+            <MedCard med={med}></MedCard>
           ))}
         </div>
       </div>
