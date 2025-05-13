@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaEye, FaShoppingCart } from "react-icons/fa";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useCart from "../../Hooks/useCart";
 
@@ -72,12 +72,66 @@ const MedCard = (item) => {
           </div>
         </div>
       </div>
-      <button
-        onClick={() => handleAddToCart(item)}
-        className="btn btn-circle bg-gray-100 "
+      <div className="flex flex-col md:flex-row gap-2 justify-center items-center">
+        <button
+          onClick={() =>
+            document.getElementById("medicine_details_modal").showModal()
+          }
+          className="btn btn-circle bg-gray-100 "
+        >
+          <FaEye className="text-secondary lg:text-xl" />
+        </button>
+        <button
+          onClick={() => handleAddToCart(item)}
+          className="btn btn-circle bg-gray-100 "
+        >
+          <FaShoppingCart className="text-secondary lg:text-xl" />
+        </button>
+      </div>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog
+        id="medicine_details_modal"
+        className="modal modal-bottom sm:modal-middle"
       >
-        <FaShoppingCart className="text-secondary" />
-      </button>
+        <div className="modal-box">
+          <h3 className="font-bold text-xl mb-2">medicine name</h3>
+          <img
+            src="https://i.ibb.co/Y4Nk16XR/Napa-Extra.png"
+            alt=""
+            className="w-full h-52 object-cover rounded mb-4"
+          />
+          <p>
+            <span className="font-semibold">Generic Name:</span> medicine
+            genericName
+          </p>
+          <p>
+            <span className="font-semibold">Company:</span> medicine company
+          </p>
+          <p>
+            <span className="font-semibold">Mass Unit:</span> medicine unit
+          </p>
+          <p>
+            <span className="font-semibold">Price:</span> ৳ medicine price
+          </p>
+          <p>
+            <span className="font-semibold">Discount:</span> medicine discount %
+          </p>
+          <p className="mt-2">
+            <span className="font-semibold">Description:</span> medicine
+            description
+          </p>
+
+          <div className="modal-action">
+            <button className="btn btn-secondary">
+              <FaShoppingCart></FaShoppingCart> Add to Cart
+            </button>
+          </div>
+        </div>
+        {/* modal closes when clicked outside */}
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
   );
 };
