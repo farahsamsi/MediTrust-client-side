@@ -15,6 +15,7 @@ import SalesReport from "../Pages/DashboardPages/Admin/SalesReport";
 import ManageAdvertise from "../Pages/DashboardPages/Admin/ManageAdvertise";
 import ManageMedicines from "../Pages/DashboardPages/Seller/ManageMedicines";
 import SellerPaymentHistory from "../Pages/DashboardPages/Seller/SellerPaymentHistory";
+import AskForAdvertise from "../Pages/DashboardPages/Seller/AskForAdvertise";
 
 export const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/paymentHistory",
         element: <SellerPaymentHistory></SellerPaymentHistory>,
+      },
+      {
+        path: "/dashboard/askForAd",
+        element: <AskForAdvertise></AskForAdvertise>,
       },
     ],
   },

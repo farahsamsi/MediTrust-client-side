@@ -127,6 +127,9 @@ const DashboardLayout = () => {
                     Payment History
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink to="/dashboard/askForAd">Ask For Advertise</NavLink>
+                </li>
               </>
             )
           }
