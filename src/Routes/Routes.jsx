@@ -13,6 +13,7 @@ import ManageCategories from "../Pages/DashboardPages/Admin/ManageCategories";
 import ManagePayment from "../Pages/DashboardPages/Admin/ManagePayment";
 import SalesReport from "../Pages/DashboardPages/Admin/SalesReport";
 import ManageAdvertise from "../Pages/DashboardPages/Admin/ManageAdvertise";
+import ManageMedicines from "../Pages/DashboardPages/Seller/ManageMedicines";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
         path: "",
         element: <DashboardHome></DashboardHome>,
       },
+      // admin routes
       {
         path: "/dashboard/manageUsers",
         element: <ManageUsers></ManageUsers>,
@@ -68,6 +70,11 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/manageAdvertise",
         element: <ManageAdvertise></ManageAdvertise>,
+      },
+      // seller routes
+      {
+        path: "/dashboard/manageMedicines",
+        element: <ManageMedicines></ManageMedicines>,
       },
     ],
   },

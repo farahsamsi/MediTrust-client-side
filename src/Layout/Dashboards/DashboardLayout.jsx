@@ -3,8 +3,12 @@ import useAdmin from "../../Hooks/useAdmin";
 import useUser from "../../Hooks/useUser";
 
 const DashboardLayout = () => {
-  const [isAdmin] = useAdmin();
+  // const [isAdmin] = useAdmin();
+  const isAdmin = false;
   const [currentUser] = useUser();
+
+  // TODO : get isSeller from server
+  const isSeller = true;
 
   return (
     <div className="drawer lg:drawer-open">
@@ -75,7 +79,9 @@ const DashboardLayout = () => {
             isAdmin && (
               <>
                 <li>
-                  <NavLink to="/dashboard">Admin Home</NavLink>
+                  <NavLink to="/dashboard" end>
+                    Admin Home
+                  </NavLink>
                 </li>
                 <li>
                   <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
@@ -96,6 +102,24 @@ const DashboardLayout = () => {
                 <li>
                   <NavLink to="/dashboard/manageAdvertise">
                     Manage Banner Advertise
+                  </NavLink>
+                </li>
+              </>
+            )
+          }
+
+          {
+            // navlinks for isSeller true
+            isSeller && (
+              <>
+                <li>
+                  <NavLink to="/dashboard" end>
+                    Seller Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/manageMedicines">
+                    Manage Medicines
                   </NavLink>
                 </li>
               </>
