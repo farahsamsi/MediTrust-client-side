@@ -16,6 +16,7 @@ import ManageAdvertise from "../Pages/DashboardPages/Admin/ManageAdvertise";
 import ManageMedicines from "../Pages/DashboardPages/Seller/ManageMedicines";
 import SellerPaymentHistory from "../Pages/DashboardPages/Seller/SellerPaymentHistory";
 import AskForAdvertise from "../Pages/DashboardPages/Seller/AskForAdvertise";
+import CartPage from "../Pages/CartPage";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
       {
         path: "shop",
         element: <Shop></Shop>,
+      },
+      {
+        path: "cart",
+        element: <CartPage></CartPage>,
       },
     ],
   },
