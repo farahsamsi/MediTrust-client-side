@@ -8,7 +8,7 @@ const DashboardLayout = () => {
   const [currentUser] = useUser();
 
   // TODO : get isSeller from server
-  const isSeller = true;
+  const isSeller = false;
 
   return (
     <div className="drawer lg:drawer-open">
@@ -133,6 +133,15 @@ const DashboardLayout = () => {
               </>
             )
           }
+          {!isAdmin && !isSeller && (
+            <>
+              <li>
+                <NavLink to="/dashboard" end>
+                  User Home
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </div>
