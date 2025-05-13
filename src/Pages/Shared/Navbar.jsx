@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../../assets/Logo/MediBazaarLogo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
@@ -11,6 +11,7 @@ import "./Navbar.css";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
+  const navigate = useNavigate();
   // console.log("current user from navbar", currentUser[0]);
 
   const handleLogout = () => {
@@ -24,6 +25,7 @@ const Navbar = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         logout().then(() => {
+          navigate("/");
           Swal.fire({
             title: "Logged out!",
             icon: "success",
