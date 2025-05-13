@@ -37,15 +37,13 @@ const SignUp = () => {
     });
     const photoURL = res.data.data.display_url;
 
-    // console.log({ name, photo, email, role });
-
     if (res.data.success) {
       createUser(email, password)
         .then(() => {
           updateUserProfile(name, photoURL).then(() => {
             const userInfo = { name, photoURL, email, role };
             axiosPublic.post("/users", userInfo).then((res) => {
-              console.log(res.data);
+              // console.log(res.data);
               if (res.data.insertedId) {
                 Swal.fire({
                   position: "top-end",

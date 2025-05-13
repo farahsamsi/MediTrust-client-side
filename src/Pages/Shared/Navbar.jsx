@@ -12,7 +12,6 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
   const navigate = useNavigate();
-  // console.log("current user from navbar", currentUser[0]);
 
   const handleLogout = () => {
     Swal.fire({

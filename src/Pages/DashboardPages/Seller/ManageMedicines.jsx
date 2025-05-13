@@ -65,7 +65,6 @@ const ManageMedicines = () => {
         })
       );
 
-    // console.log(medicineItem);
     setShowModal(false);
     form.medicineName.value = "";
     form.genericName.value = "";

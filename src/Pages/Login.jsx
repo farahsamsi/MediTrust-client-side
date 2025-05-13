@@ -21,7 +21,6 @@ const Login = () => {
     const password = form.password.value;
 
     loginUser(email, password).then((result) => {
-      console.log("Login result see", result.user);
       Swal.fire({
         position: "top-end",
         icon: "success",
