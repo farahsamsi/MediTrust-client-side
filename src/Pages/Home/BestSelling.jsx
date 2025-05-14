@@ -15,7 +15,7 @@ const BestSelling = () => {
       <div className="w-11/12 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
           {medicines?.map((med) => (
-            <MedCard med={med}></MedCard>
+            <MedCard key={med?._id} med={med}></MedCard>
           ))}
         </div>
       </div>

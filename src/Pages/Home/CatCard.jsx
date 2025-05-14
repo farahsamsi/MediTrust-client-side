@@ -1,9 +1,16 @@
-import React from "react";
+import { Link } from "react-router-dom";
+import useCategoryMedicines from "../../Hooks/useCategoryMedicines";
 
 const CatCard = ({ category }) => {
   const { id, categoryName, categoryImage } = category;
+
+  const [categoryMedicines] = useCategoryMedicines(categoryName);
+
   return (
-    <div className="card bg-base-100 shadow-sm hover:scale-105 transition ease-in-out">
+    <Link
+      to={`/shop/${categoryName}`}
+      className="card bg-base-100 shadow-sm hover:scale-105 transition ease-in-out"
+    >
       <figure>
         <img src={categoryImage} alt={categoryName} />
       </figure>
@@ -14,10 +21,10 @@ const CatCard = ({ category }) => {
         </h2>
 
         <div className="badge badge-outline badge-secondary h-fit">
-          Available Medicine :
+          Available Medicine : {categoryMedicines?.length}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

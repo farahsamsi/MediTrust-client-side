@@ -14,7 +14,7 @@ const Categories = () => {
       ></SectionTitle>
       <div className="w-11/12 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {categories?.map((category) => (
-          <CatCard key={category?.id} category={category}></CatCard>
+          <CatCard key={category?._id} category={category}></CatCard>
         ))}
       </div>
     </div>

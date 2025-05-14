@@ -83,7 +83,7 @@ const DiscountSection = () => {
         >
           {discountCards.map((card) => (
             <SwiperSlide>
-              <div className="relative bg-base-100 shadow-md rounded-lg p-4 hover:shadow-lg transition">
+              <div className="relative bg-base-100 shadow-md rounded-lg p-4 hover:shadow-lg transition cursor-pointer">
                 {/* Sale Badge */}
                 <div className="absolute top-2 right-2 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full animate-bounce">
                   <FaTag className="inline mr-1" /> Sale!
