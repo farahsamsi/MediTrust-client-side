@@ -1,17 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
-import Swal from "sweetalert2";
-import { FaEye, FaShoppingCart } from "react-icons/fa";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import useCart from "../../Hooks/useCart";
+import { FaEye } from "react-icons/fa";
+import AddToCart from "./AddToCart";
 
 const MedCard = ({ med }) => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const axiosSecure = useAxiosSecure();
-  const [, refetch] = useCart();
-
   const {
     _id,
     medicineName,
@@ -26,42 +16,6 @@ const MedCard = ({ med }) => {
     sellerEmail,
   } = med || {};
 
-  const handleAddToCart = (item) => {
-    if (user && user?.email) {
-      // TODO: send cart item to the database
-      const cartItem = {
-        email: user?.email,
-        //   medicineId : _id,
-      };
-      axiosSecure.post("/carts", cartItem).then((res) => {
-        if (res.data.insertedId) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `Name has been added to your cart`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          // refetch the cart to update the cart refetch count
-          refetch();
-        }
-      });
-    } else {
-      Swal.fire({
-        title: "Please Login First",
-        text: "You won't be able to add medicines to your cart unless you are logged in",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Login!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login", { state: { from: location } });
-        }
-      });
-    }
-  };
   return (
     <div className="flex items-center justify-between border-b py-3">
       <div className="flex items-center gap-4">
@@ -92,12 +46,7 @@ const MedCard = ({ med }) => {
         >
           <FaEye className="text-secondary lg:text-xl" />
         </button>
-        <button
-          onClick={() => handleAddToCart(med)}
-          className="btn btn-circle bg-gray-100 "
-        >
-          <FaShoppingCart className="text-secondary lg:text-xl" />
-        </button>
+        <AddToCart med={med}></AddToCart>
       </div>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <dialog id={`${_id}`} className="modal modal-bottom sm:modal-middle">
@@ -129,9 +78,7 @@ const MedCard = ({ med }) => {
           </p>
 
           <div className="modal-action">
-            <button className="btn btn-secondary">
-              <FaShoppingCart></FaShoppingCart> Add to Cart
-            </button>
+            <AddToCart med={med}></AddToCart>
           </div>
         </div>
         {/* modal closes when clicked outside */}

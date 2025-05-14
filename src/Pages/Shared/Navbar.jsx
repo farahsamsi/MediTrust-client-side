@@ -11,6 +11,7 @@ import "./Navbar.css";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
+  console.log(cart);
   const navigate = useNavigate();
 
   const handleLogout = () => {
