@@ -30,6 +30,41 @@ const CartPage = () => {
       });
   };
 
+  const handleDelete = async (item) => {
+    Swal.fire({
+      title: `Are you sure want to Delete ${item?.medicineName} from your cart?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axiosPublic
+          .delete(`/carts/${item?._id}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${item?.medicineName} has been deleted from your cart`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              refetch();
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${err.message}`,
+            });
+          });
+      }
+    });
+  };
+
   return (
     <section className="w-full px-1 mb-10">
       <DashboardBanner
@@ -96,7 +131,10 @@ const CartPage = () => {
                   </td>
                   <td>${item?.totalPrice}</td>
                   <td>
-                    <button className="btn btn-xs btn-error text-white">
+                    <button
+                      onClick={() => handleDelete(item)}
+                      className="btn btn-xs btn-error text-white"
+                    >
                       <FaTrash />
                     </button>
                   </td>
