@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../assets/Logo/MediBazaarLogo.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
@@ -11,7 +10,6 @@ import "./Navbar.css";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [cart] = useCart();
-  console.log(cart);
   const navigate = useNavigate();
 
   const handleLogout = () => {

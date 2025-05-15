@@ -15,21 +15,43 @@ const AddToCart = ({ med }) => {
 
   const handleAddToCart = (med) => {
     if (user && user?.email) {
-      // TODO: send cart item to the database
-      const cartItem = { ...med, medicineQuantity: 1, buyerEmail: user.email };
-      axiosSecure.post("/carts", cartItem).then((res) => {
-        if (res.data.insertedId) {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: `${med?.medicineName} has been added to your cart`,
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          // refetch the cart to update the cart refetch count
-          refetch();
-        }
-      });
+      // send cart item to the database
+      const cartItem = {
+        ...med,
+        medicineQuantity: 1,
+        buyerEmail: user?.email,
+        totalPrice: med?.price,
+      };
+      axiosSecure
+        .post("/carts", cartItem)
+        .then((res) => {
+          if (res.data.insertedId) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `${med?.medicineName} has been added to your cart`,
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            // refetch the cart to update the cart refetch count
+            refetch();
+          }
+        })
+        .catch((err) => {
+          if (err.response?.status === 400) {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${med?.medicineName} is already in your cart`,
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Failed to add to cart.",
+            });
+          }
+        });
     } else {
       Swal.fire({
         title: "Please Login First",

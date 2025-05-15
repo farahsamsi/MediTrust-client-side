@@ -1,58 +1,34 @@
-import { useState } from "react";
 import { FaTrash, FaPlus, FaMinus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import DashboardBanner from "./Shared/DashboardBanner";
 import { MdDeleteForever } from "react-icons/md";
+import useCart from "../Hooks/useCart";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const CartPage = () => {
   const navigate = useNavigate();
+  const [cart, refetch] = useCart();
+  const axiosPublic = useAxiosPublic();
 
-  // TODO: make this functionalities from server
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Napa Extra",
-      company: "Beximco",
-      price: 50,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "Seclo",
-      company: "Square",
-      price: 30,
-      quantity: 2,
-    },
-  ]);
-
-  const updateQuantity = (id, action) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity:
-                action === "inc"
-                  ? item.quantity + 1
-                  : Math.max(1, item.quantity - 1),
-            }
-          : item
-      )
-    );
+  const handleQuantity = async (id, type) => {
+    await axiosPublic
+      .patch(`/carts/${id}`, { type })
+      .then((res) => {
+        if (res.data.modifiedCount > 0) {
+          refetch();
+        }
+      })
+      .catch((err) => {
+        if (err.response?.status === 400) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Invalid quantity update`,
+          });
+        }
+      });
   };
-
-  const removeItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-  };
-
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
 
   return (
     <section className="w-full px-1 mb-10">
@@ -63,14 +39,11 @@ const CartPage = () => {
 
       {/* Button actions */}
       <div className="flex justify-between items-center my-8">
-        <button
-          className="btn btn-outline btn-error hidden"
-          onClick={clearCart}
-        >
+        <button className="btn btn-outline btn-error hidden">
           <MdDeleteForever className="text-xl" />
           Clear Cart
         </button>
-        <div className="text-lg font-semibold">Total: ৳{total}</div>
+        <div className="text-lg font-semibold">Total: ৳{}</div>
         <button
           className="btn btn-secondary "
           onClick={() => navigate("/checkout")}
@@ -79,7 +52,7 @@ const CartPage = () => {
         </button>
       </div>
 
-      {cartItems.length === 0 ? (
+      {cart?.length === 0 ? (
         <p className="text-gray-500">Your cart is empty.</p>
       ) : (
         <div className="overflow-x-auto">
@@ -95,34 +68,31 @@ const CartPage = () => {
               </tr>
             </thead>
             <tbody>
-              {cartItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.company}</td>
-                  <td>৳{item.price}</td>
+              {cart?.map((item) => (
+                <tr key={item?._id}>
+                  <td>{item?.medicineName}</td>
+                  <td>{item?.companyName}</td>
+                  <td>৳{item?.price}</td>
                   <td>
                     <div className="flex items-center gap-2">
                       <button
                         className="btn btn-xs"
-                        onClick={() => updateQuantity(item.id, "dec")}
+                        onClick={() => handleQuantity(item._id, "decrease")}
                       >
                         <FaMinus />
                       </button>
-                      <span>{item.quantity}</span>
+                      <span>{item?.medicineQuantity}</span>
                       <button
                         className="btn btn-xs"
-                        onClick={() => updateQuantity(item.id, "inc")}
+                        onClick={() => handleQuantity(item._id, "increase")}
                       >
                         <FaPlus />
                       </button>
                     </div>
                   </td>
-                  <td>৳{item.price * item.quantity}</td>
+                  <td>${item?.totalPrice}</td>
                   <td>
-                    <button
-                      className="btn btn-xs btn-error text-white"
-                      onClick={() => removeItem(item.id)}
-                    >
+                    <button className="btn btn-xs btn-error text-white">
                       <FaTrash />
                     </button>
                   </td>
@@ -133,10 +103,7 @@ const CartPage = () => {
         </div>
       )}
       <div className="flex justify-end mt-6">
-        <button
-          className="btn btn-outline btn-error md:hidden"
-          onClick={clearCart}
-        >
+        <button className="btn btn-outline btn-error md:hidden">
           <MdDeleteForever className="text-xl" />
           Clear Cart
         </button>
