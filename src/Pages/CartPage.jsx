@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const [cart, refetch] = useCart();
+  const [cart, refetch, cartIsLoading] = useCart();
   const axiosPublic = useAxiosPublic();
 
   const handleQuantity = async (id, type) => {
@@ -52,7 +52,11 @@ const CartPage = () => {
         </button>
       </div>
 
-      {cart?.length === 0 ? (
+      {cartIsLoading ? (
+        <div className="h-screen flex items-center justify-center">
+          <span className="loading loading-ring text-secondary w-xl"></span>
+        </div>
+      ) : cart?.length === 0 ? (
         <p className="text-gray-500">Your cart is empty.</p>
       ) : (
         <div className="overflow-x-auto">
