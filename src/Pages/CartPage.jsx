@@ -11,9 +11,9 @@ const CartPage = () => {
   const [cart, refetch, cartIsLoading] = useCart();
   const axiosPublic = useAxiosPublic();
 
-  const handleQuantity = async (id, type) => {
+  const handleQuantity = async (id, type, buyerEmail) => {
     await axiosPublic
-      .patch(`/carts/${id}`, { type })
+      .patch(`/carts/${id}`, { type, buyerEmail })
       .then((res) => {
         if (res.data.modifiedCount > 0) {
           refetch();
@@ -41,7 +41,7 @@ const CartPage = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axiosPublic
-          .delete(`/carts/${item?._id}`)
+          .delete(`/carts/${item?._id}`, { buyerEmail: item?.buyerEmail })
           .then((res) => {
             if (res.data.deletedCount > 0) {
               Swal.fire({
@@ -65,6 +65,8 @@ const CartPage = () => {
     });
   };
 
+  console.log(cart[0]?.subTotal);
+
   return (
     <section className="w-full px-1 mb-10">
       <DashboardBanner
@@ -78,7 +80,7 @@ const CartPage = () => {
           <MdDeleteForever className="text-xl" />
           Clear Cart
         </button>
-        <div className="text-lg font-semibold">Total: ৳{}</div>
+        <div className="text-lg font-semibold">Total: ${cart[0]?.subTotal}</div>
         <button
           className="btn btn-secondary "
           onClick={() => navigate("/checkout")}
@@ -116,14 +118,18 @@ const CartPage = () => {
                     <div className="flex items-center gap-2">
                       <button
                         className="btn btn-xs"
-                        onClick={() => handleQuantity(item._id, "decrease")}
+                        onClick={() =>
+                          handleQuantity(item._id, "decrease", item.buyerEmail)
+                        }
                       >
                         <FaMinus />
                       </button>
                       <span>{item?.medicineQuantity}</span>
                       <button
                         className="btn btn-xs"
-                        onClick={() => handleQuantity(item._id, "increase")}
+                        onClick={() =>
+                          handleQuantity(item._id, "increase", item.buyerEmail)
+                        }
                       >
                         <FaPlus />
                       </button>
