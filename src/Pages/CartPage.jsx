@@ -5,11 +5,22 @@ import { MdDeleteForever } from "react-icons/md";
 import useCart from "../Hooks/useCart";
 import useAxiosPublic from "../Hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import { useEffect, useState } from "react";
 
 const CartPage = () => {
   const navigate = useNavigate();
   const [cart, refetch, cartIsLoading] = useCart();
   const axiosPublic = useAxiosPublic();
+  const [subTotal, setSubTotal] = useState(0);
+
+  useEffect(() => {
+    refetch();
+    let calculatedSubTotal = cart.reduce(
+      (sum, item) => sum + item.totalPrice,
+      0
+    );
+    setSubTotal(calculatedSubTotal);
+  }, [cart, refetch]);
 
   const handleQuantity = async (id, type, buyerEmail) => {
     await axiosPublic
@@ -41,8 +52,8 @@ const CartPage = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axiosPublic
-          .delete(`/carts/${item?._id}`, { buyerEmail: item?.buyerEmail })
-          .then((res) => {
+          .delete(`/carts/${item?._id}`)
+          .then(async (res) => {
             if (res.data.deletedCount > 0) {
               Swal.fire({
                 position: "top-end",
@@ -65,8 +76,6 @@ const CartPage = () => {
     });
   };
 
-  console.log(cart[0]?.subTotal);
-
   return (
     <section className="w-full px-1 mb-10">
       <DashboardBanner
@@ -80,7 +89,7 @@ const CartPage = () => {
           <MdDeleteForever className="text-xl" />
           Clear Cart
         </button>
-        <div className="text-lg font-semibold">Total: ${cart[0]?.subTotal}</div>
+        <div className="text-lg font-semibold">Total: ${subTotal}</div>
         <button
           className="btn btn-secondary "
           onClick={() => navigate("/checkout")}
