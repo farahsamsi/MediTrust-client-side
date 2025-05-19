@@ -122,12 +122,13 @@ const CartPage = () => {
       <div className="flex justify-between items-center my-8">
         <button
           onClick={() => handleClearCart(cart[0]?.buyerEmail)}
+          disabled={cart?.length === 0}
           className="btn btn-outline btn-error hidden md:flex"
         >
           <MdDeleteForever className="text-xl" />
           Clear Cart
         </button>
-        <div className="text-lg font-semibold">Total: ${subTotal}</div>
+        <div className="text-lg font-semibold">Total: Tk {subTotal}</div>
         <button
           className="btn btn-secondary "
           onClick={() => navigate("/checkout")}

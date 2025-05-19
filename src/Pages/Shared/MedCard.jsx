@@ -34,7 +34,7 @@ const MedCard = ({ med }) => {
                             </span>
                           )} */}
             <span className="font-semibold text-secondary">
-              {/* ${item.price.toFixed(2)} */}${price}
+              {/* ${item.price.toFixed(2)} */}Tk {price}
             </span>
           </div>
         </div>
@@ -67,7 +67,7 @@ const MedCard = ({ med }) => {
             <span className="font-semibold">Mass Unit:</span> 500 {massUnit}
           </p>
           <p>
-            <span className="font-semibold">Price:</span> ${price}
+            <span className="font-semibold">Price:</span> Tk {price}
           </p>
           <p>
             <span className="font-semibold">Discount:</span>{" "}
