@@ -76,6 +76,41 @@ const CartPage = () => {
     });
   };
 
+  const handleClearCart = async (buyerEmail) => {
+    Swal.fire({
+      title: `Are you sure want to Clear your cart?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Clear Cart!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axiosPublic
+          .delete(`/carts?buyerEmail=${buyerEmail}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `All items from your cart has been deleted`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              refetch();
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${err.message}`,
+            });
+          });
+      }
+    });
+  };
+
   return (
     <section className="w-full px-1 mb-10">
       <DashboardBanner
@@ -85,7 +120,10 @@ const CartPage = () => {
 
       {/* Button actions */}
       <div className="flex justify-between items-center my-8">
-        <button className="btn btn-outline btn-error hidden">
+        <button
+          onClick={() => handleClearCart(cart[0]?.buyerEmail)}
+          className="btn btn-outline btn-error hidden md:flex"
+        >
           <MdDeleteForever className="text-xl" />
           Clear Cart
         </button>
@@ -103,7 +141,7 @@ const CartPage = () => {
           <span className="loading loading-ring text-secondary w-xl"></span>
         </div>
       ) : cart?.length === 0 ? (
-        <p className="text-gray-500">Your cart is empty.</p>
+        <p className="text-gray-500 text-center">Your cart is empty.</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="table w-full mb-6">
