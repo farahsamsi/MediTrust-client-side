@@ -131,6 +131,7 @@ const CartPage = () => {
         <div className="text-lg font-semibold">Total: Tk {subTotal}</div>
         <button
           className="btn btn-secondary "
+          disabled={cart?.length === 0}
           onClick={() => navigate("/checkout")}
         >
           Checkout

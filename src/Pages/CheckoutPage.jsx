@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdOutlineLocalShipping } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
+import useCart from "../Hooks/useCart";
 
 const CheckoutPage = () => {
   const { user } = useAuth();
+  const [cart, refetch] = useCart();
 
   const {
     register,
@@ -17,8 +19,19 @@ const CheckoutPage = () => {
     console.log(data);
   };
 
+  const [subTotal, setSubTotal] = useState(0);
+
+  useEffect(() => {
+    refetch();
+    let calculatedSubTotal = cart.reduce(
+      (sum, item) => sum + item.totalPrice,
+      0
+    );
+    setSubTotal(calculatedSubTotal);
+  }, [cart, refetch]);
+
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="min-h-screen bg-gray-100 p-4 md:p-10 grid grid-cols-1 lg:grid-cols-3 space-y-6 lg:space-y-0 lg:gap-6">
       {/* Left Side - Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -35,7 +48,9 @@ const CheckoutPage = () => {
         />
         <label className="label cursor-pointer">
           <input type="checkbox" className="checkbox mr-2" />
-          <span className="label-text">Email me with news and offers</span>
+          <span className="label-text text-xs ">
+            Email me with news and offers
+          </span>
         </label>
 
         <h2 className="text-2xl font-bold mt-6 mb-4">Shipping address</h2>
@@ -97,10 +112,12 @@ const CheckoutPage = () => {
         )}
         <label className="label cursor-pointer mt-4">
           <input type="checkbox" className="checkbox mr-2" />
-          <span className="label-text">Text me with news and offers</span>
+          <span className="label-text text-xs">
+            Text me with news and offers
+          </span>
         </label>
 
-        <div className="mt-6 flex justify-between items-center">
+        <div className="mt-6 flex flex-col md:flex-row gap-4 md:justify-between  items-center">
           <Link to="/cart" className="link text-sm text-secondary">
             Return to cart
           </Link>
@@ -112,34 +129,52 @@ const CheckoutPage = () => {
 
       {/* Right Side - Order Summary */}
       <div className="bg-white p-6 rounded-xl shadow-md">
-        <div className="flex items-center gap-4 mb-6">
-          <img
-            src="https://i.ibb.co/Bzrm4Gq/detergent.png"
-            alt="Laundry Detergent"
-            className="w-16 h-16 object-cover rounded"
-          />
-          <div className="flex-1">
-            <p className="font-semibold">
-              Laundry Detergent Packs - Fragrance Free, 2-Pack
-            </p>
-            <p className="text-sm">$17.00</p>
+        <div className="">
+          <div className="overflow-x-auto">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th className="hidden md:flex"></th>
+                  <th>Name</th>
+                  <th className="hidden md:flex">Quantity</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cart &&
+                  cart?.map((item, index) => (
+                    <tr className="hover:bg-base-300">
+                      <th className="hidden md:flex">{index + 1}</th>
+                      <td>{item?.medicineName}</td>
+                      <td className="hidden md:flex">
+                        {item?.medicineQuantity}
+                      </td>
+                      <td>
+                        {item?.medicineQuantity}x{item?.price}=
+                        {item?.totalPrice}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
           </div>
         </div>
-
+        <div className="divider"></div>
         <div className="flex justify-between mb-2">
           <span>Subtotal</span>
-          <span>$17.00</span>
+          <span>Tk {subTotal}</span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="flex items-center gap-1">
             Shipping <MdOutlineLocalShipping className="text-lg" />
           </span>
-          <span className="text-sm text-gray-600">Calculated at next step</span>
+          <span className="text-sm text-gray-600">Tk 25</span>
         </div>
 
         <div className="flex justify-between text-lg font-bold">
           <span>Total</span>
-          <span>USD $17.00</span>
+          <span>Tk {subTotal + 25}</span>
         </div>
       </div>
     </div>
