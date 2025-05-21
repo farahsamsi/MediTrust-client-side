@@ -4,10 +4,13 @@ import { MdOutlineLocalShipping } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import useCart from "../Hooks/useCart";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 const CheckoutPage = () => {
+  const [subTotal, setSubTotal] = useState(0);
   const { user } = useAuth();
   const [cart, refetch] = useCart();
+  const axiosPublic = useAxiosPublic();
 
   const {
     register,
@@ -15,11 +18,14 @@ const CheckoutPage = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    data.totalBill = parseInt(subTotal + 25);
+    data.items = cart;
+    const res = await axiosPublic.post("/order", data);
+    if (res.data) {
+      window.location.replace(res.data.url);
+    }
   };
-
-  const [subTotal, setSubTotal] = useState(0);
 
   useEffect(() => {
     refetch();
@@ -173,7 +179,7 @@ const CheckoutPage = () => {
         </div>
 
         <div className="flex justify-between text-lg font-bold">
-          <span>Total</span>
+          <span>Total Bill</span>
           <span>Tk {subTotal + 25}</span>
         </div>
       </div>

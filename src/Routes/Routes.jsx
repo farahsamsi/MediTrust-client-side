@@ -18,6 +18,8 @@ import SellerPaymentHistory from "../Pages/DashboardPages/Seller/SellerPaymentHi
 import AskForAdvertise from "../Pages/DashboardPages/Seller/AskForAdvertise";
 import CartPage from "../Pages/CartPage";
 import CheckoutPage from "../Pages/CheckOutPage";
+import PaymentSuccess from "../Pages/PaymentSuccess";
+import PaymentFailed from "../Pages/PaymentFailed";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +53,14 @@ export const router = createBrowserRouter([
       {
         path: "checkout",
         element: <CheckoutPage></CheckoutPage>,
+      },
+      {
+        path: "payment/success/:tranId",
+        element: <PaymentSuccess></PaymentSuccess>,
+      },
+      {
+        path: "payment/fail/:tranId",
+        element: <PaymentFailed></PaymentFailed>,
       },
     ],
   },
