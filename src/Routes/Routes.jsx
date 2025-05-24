@@ -20,11 +20,13 @@ import CartPage from "../Pages/CartPage";
 import CheckoutPage from "../Pages/CheckOutPage";
 import PaymentSuccess from "../Pages/PaymentSuccess";
 import PaymentFailed from "../Pages/PaymentFailed";
+import ErrorPage from "../Pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",

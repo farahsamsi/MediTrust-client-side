@@ -21,6 +21,8 @@ const PaymentSuccess = () => {
     setOrderDetails(res.data);
   };
 
+  // TODO: clear cart after successful payment
+
   useEffect(() => {
     getOrderDetails();
   }, [tranId]);
