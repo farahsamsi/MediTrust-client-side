@@ -21,11 +21,22 @@ const PaymentSuccess = () => {
     setOrderDetails(res.data);
   };
 
+  const clearCart = async () => {
+    const buyerEmail = orderDetails?.order?.buyerEmail;
+    if (
+      orderDetails?.transactionID === tranId &&
+      orderDetails?.paymentStatus === "paid"
+    ) {
+      await axiosPublic.delete(`/carts?buyerEmail=${buyerEmail}`);
+    }
+  };
+
   // TODO: clear cart after successful payment
 
   useEffect(() => {
     getOrderDetails();
-  }, [tranId]);
+    clearCart();
+  }, [tranId, orderDetails?.order?.buyerEmail]);
 
   useEffect(() => {
     let calculatedSubTotal = orderDetails?.order?.items.reduce(

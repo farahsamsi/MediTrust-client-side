@@ -1,26 +1,23 @@
 import { FaCheckCircle, FaClock } from "react-icons/fa";
 import DashboardBanner from "../../Shared/DashboardBanner";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosPublic from "../../../Hooks/useAxiosPublic";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 const PaymentHistory = () => {
-  // TODO: Dummy payment history data
-  const payments = [
-    {
-      id: 1,
-      date: "2025-05-10",
-      medicine: "Paracetamol 500mg",
-      transactionId: "TXN123456789",
-      amount: 120,
-      status: "paid",
-    },
-    {
-      id: 2,
-      date: "2025-05-08",
-      medicine: "Napa Extra",
-      transactionId: "TXN987654321",
-      amount: 95,
-      status: "pending",
-    },
-  ];
+  const { user } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const [payments, setPayments] = useState([]);
+
+  const getUserPaymentHistory = async () => {
+    const result = await axiosPublic.get(`/order/user/${user.email}`);
+    setPayments(result.data);
+  };
+
+  useEffect(() => {
+    getUserPaymentHistory();
+  }, [user]);
 
   return (
     <section className="w-full px-1">
@@ -38,19 +35,38 @@ const PaymentHistory = () => {
               <th>Medicine</th>
               <th>Transaction ID</th>
               <th>Amount (৳)</th>
+              <th>Seller Email</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {payments.map((payment, index) => (
-              <tr key={payment.id}>
+              <tr key={payment?._id}>
                 <td>{index + 1}</td>
-                <td>{payment.date}</td>
-                <td>{payment.medicine}</td>
-                <td>{payment.transactionId}</td>
-                <td>{payment.amount}</td>
+                {/* <td>{payment?.transactionDate}</td> */}
+
                 <td>
-                  {payment.status === "paid" ? (
+                  {payment?.transactionDate &&
+                    format(
+                      new Date(payment?.transactionDate),
+                      "yyyy-MM-dd hh:mm:ss a"
+                    )}
+                </td>
+
+                <td>
+                  {payment?.order?.items?.map((item) => (
+                    <p>{item?.medicineName},</p>
+                  ))}
+                </td>
+                <td>{payment?.transactionID}</td>
+                <td>{payment?.order?.totalBill}</td>
+                <td>
+                  {payment?.order?.items?.map((item) => (
+                    <p>{item?.sellerEmail},</p>
+                  ))}
+                </td>
+                <td>
+                  {payment?.paymentStatus === "paid" ? (
                     <span className="badge badge-success gap-2">
                       <FaCheckCircle /> Paid
                     </span>
