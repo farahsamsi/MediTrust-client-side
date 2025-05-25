@@ -35,6 +35,42 @@ const ManageCategories = () => {
     form.categoryImage.value = "";
   };
 
+  // delete category
+  const handleDelete = async (cat) => {
+    Swal.fire({
+      title: `Are you sure want to Delete ${cat?.categoryName} from category list?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axiosSecure
+          .delete(`/category/${cat._id}`)
+          .then(async (res) => {
+            if (res.data.deletedCount > 0) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: `${cat?.categoryName} has been deleted.`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              refetchCategories();
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `${err.message}`,
+            });
+          });
+      }
+    });
+  };
+
   return (
     <section className="w-full px-1 py-4">
       <DashboardBanner
@@ -64,22 +100,19 @@ const ManageCategories = () => {
           </thead>
           <tbody>
             {categories?.map((cat, index) => (
-              <tr key={cat.id}>
+              <tr key={cat?._id}>
                 <td>{index + 1}</td>
                 <td>
                   <img
-                    src={cat.categoryImage}
-                    alt={cat.categoryName}
+                    src={cat?.categoryImage}
+                    alt={cat?.categoryName}
                     className="w-16  rounded"
                   />
                 </td>
                 <td>{cat.categoryName}</td>
                 <td className="flex gap-2">
-                  <button className="btn btn-sm btn-outline btn-info">
-                    <FaEdit />
-                  </button>
                   <button
-                    // onClick={() => handleDelete(cat.id)}
+                    onClick={() => handleDelete(cat)}
                     className="btn btn-sm btn-outline btn-error"
                   >
                     <FaTrash />
