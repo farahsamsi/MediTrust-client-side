@@ -1,12 +1,21 @@
-import React from "react";
 import { FaCheckCircle, FaClock, FaMoneyBillWave } from "react-icons/fa";
 import DashboardBanner from "../../Shared/DashboardBanner";
+import useAllOrders from "../../../Hooks/useAllOrders";
 
 const AdminHome = () => {
-  // Dummy data (TODO: replace with API data or state)
-  const totalRevenue = 150000;
-  const paidTotal = 120000;
-  const pendingTotal = 30000;
+  const [allOrders] = useAllOrders();
+
+  const paidTotal = allOrders
+    .filter((order) => order.paymentStatus === "paid")
+    .reduce((acc, order) => acc + (order.order.totalBill || 0), 0);
+
+  const pendingTotal = allOrders
+    .filter((order) => order?.paymentStatus === "pending")
+    .reduce((acc, order) => acc + (order?.order?.totalBill || 0), 0);
+
+  const totalRevenue = allOrders?.reduce((acc, order) => {
+    return acc + (order?.order?.totalBill || 0);
+  }, 0);
 
   return (
     <section className="w-full px-1">
