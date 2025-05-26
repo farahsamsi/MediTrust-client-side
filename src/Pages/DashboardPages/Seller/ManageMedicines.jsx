@@ -102,7 +102,7 @@ const ManageMedicines = () => {
               <th>Name</th>
               <th>Generic</th>
               <th>Unit</th>
-              <th>Price</th>
+              <th>Price (Tk)</th>
               <th>Discount %</th>
               <th>Category</th>
               <th>Company</th>
@@ -124,7 +124,7 @@ const ManageMedicines = () => {
                 <td>{medicine?.medicineName}</td>
                 <td>{medicine?.genericName}</td>
                 <td>500mg</td>
-                <td>${medicine?.price}</td>
+                <td>{medicine?.price}</td>
                 <td>{medicine?.discountPercentage}%</td>
                 <td>{medicine?.category}</td>
                 <td>{medicine?.companyName}</td>

@@ -6,14 +6,14 @@ const AskForAdvertise = () => {
   const [advertisements, setAdvertisements] = useState([
     {
       id: 1,
-      image: "https://i.ibb.co/QMkjpFM/medicine-sample.jpg",
+      image: "https://i.ibb.co/YVr64R3/Paracetamol-500mg.png",
       name: "Paracetamol 500mg",
       description: "Best-selling pain relief tablet for fever and headache.",
       status: true,
     },
     {
       id: 2,
-      image: "https://i.ibb.co/G0T0dgr/medicine2.jpg",
+      image: "https://i.ibb.co/Y4Nk16XR/Napa-Extra.png",
       name: "Napa Extra",
       description: "Powerful tablet for flu and cold symptoms.",
       status: false,
