@@ -1,37 +1,35 @@
-import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import DashboardBanner from "../../Shared/DashboardBanner";
+import useAllOrders from "../../../Hooks/useAllOrders";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const ManagePayment = () => {
-  const [payments, setPayments] = useState([
-    {
-      id: 1,
-      userName: "Rahim Uddin",
-      email: "rahim@example.com",
-      amount: 1200,
-      status: "pending",
-    },
-    {
-      id: 2,
-      userName: "Salma Khatun",
-      email: "salma@example.com",
-      amount: 950,
-      status: "paid",
-    },
-    {
-      id: 3,
-      userName: "Tania Sultana",
-      email: "tania@example.com",
-      amount: 2000,
-      status: "pending",
-    },
-  ]);
+  const [allOrders, refetchAllOrders] = useAllOrders();
+  const axiosSecure = useAxiosSecure();
 
-  const handleAcceptPayment = (id) => {
-    const updated = payments.map((p) =>
-      p.id === id ? { ...p, status: "paid" } : p
-    );
-    setPayments(updated);
+  const handleAcceptPayment = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#F43098",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Accept Payment!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const result = await axiosSecure.patch(`/order/update/${id}`);
+        if (result.data.modifiedCount > 0) {
+          refetchAllOrders();
+          Swal.fire({
+            title: "Accepted!",
+            text: "Payment has been accepted",
+            icon: "success",
+          });
+        }
+      }
+    });
   };
 
   return (
@@ -54,34 +52,39 @@ const ManagePayment = () => {
             </tr>
           </thead>
           <tbody>
-            {payments.map((payment, index) => (
-              <tr key={payment.id}>
+            {allOrders.map((payment, index) => (
+              <tr key={payment._id}>
                 <td>{index + 1}</td>
-                <td>{payment.userName}</td>
-                <td>{payment.email}</td>
-                <td>{payment.amount}</td>
+                <td>{payment?.order?.buyerName}</td>
+                <td>{payment?.order?.buyerEmail}</td>
+                <td>{payment?.order?.totalBill}</td>
                 <td>
                   <span
-                    className={`badge ${
-                      payment.status === "paid"
-                        ? "badge-success"
-                        : "badge-warning"
-                    } text-white`}
+                    className={`badge
+                      ${payment?.paymentStatus === "pending" && "badge-warning"}
+                      ${payment?.paymentStatus === "failed" && "badge-error"}
+                       ${
+                         payment?.paymentStatus === "paid" && "badge-success"
+                       } text-white`}
                   >
-                    {payment.status}
+                    {payment?.paymentStatus}
                   </span>
                 </td>
                 <td>
-                  {payment.status === "pending" ? (
+                  {payment?.paymentStatus === "pending" && (
                     <button
-                      onClick={() => handleAcceptPayment(payment.id)}
+                      onClick={() => handleAcceptPayment(payment?._id)}
                       className="btn btn-sm btn-outline btn-success flex items-center gap-2"
                     >
                       <FaCheckCircle />
                       Accept Payment
                     </button>
-                  ) : (
+                  )}
+                  {payment?.paymentStatus === "paid" && (
                     <span className="text-green-500 font-semibold">Paid ✔</span>
+                  )}
+                  {payment?.paymentStatus === "failed" && (
+                    <span className="text-red-500 font-semibold">Canceled</span>
                   )}
                 </td>
               </tr>

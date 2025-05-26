@@ -46,7 +46,7 @@ const CartPage = () => {
       title: `Are you sure want to Delete ${item?.medicineName} from your cart?`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#F43098",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Delete!",
     }).then(async (result) => {
@@ -81,7 +81,7 @@ const CartPage = () => {
       title: `Are you sure want to Clear your cart?`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#F43098",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Clear Cart!",
     }).then(async (result) => {

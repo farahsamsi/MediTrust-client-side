@@ -58,7 +58,7 @@ const AddToCart = ({ med }) => {
         text: "You won't be able to add medicines to your cart unless you are logged in",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#F43098",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, Login!",
       }).then((result) => {

@@ -4,7 +4,7 @@ import useAxiosSecure from "./useAxiosSecure";
 const useAllOrders = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: allOrders = [] } = useQuery({
+  const { refetch: refetchAllOrders, data: allOrders = [] } = useQuery({
     queryKey: ["allOrders"],
     queryFn: async () => {
       const res = await axiosSecure.get("/allOrders");
@@ -12,7 +12,7 @@ const useAllOrders = () => {
     },
   });
 
-  return [allOrders];
+  return [allOrders, refetchAllOrders];
 };
 
 export default useAllOrders;
