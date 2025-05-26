@@ -8,13 +8,29 @@
 
 ## 🌐 Live URL
 
-- **Deployed Website:** [https://github.com/farahsamsi/MediTrust-server-side](https://github.com/farahsamsi/MediTrust-server-side)
+- **Deployed Website:** [https://medibazaar-94fd8.web.app](https://medibazaar-94fd8.web.app)
 
 ---
 
 ## 🗂 Server Side Repository Link
 
-- **Server Side Repository:** [https://github.com/farahsamsi/mediTrust-server](https://github.com/farahsamsi/mediTrust-server)
+- **Server Side Repository:** [https://github.com/farahsamsi/MediTrust-server-side](https://github.com/farahsamsi/MediTrust-server-side)
+
+---
+
+---
+
+## Credentials
+
+- **Admin**
+  - email: admin@meditrust.com
+  - password: 123456789
+- **Seller**
+  - email: seller@meditrust.com
+  - password: 123456789
+- **User**
+  - email: user@meditrust.com
+  - password: 123456789
 
 ---
 
